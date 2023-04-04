@@ -29,18 +29,20 @@ public class CustomAdapter extends ArrayAdapter<DTO> {
         return noteBooks.get(position);
     }
 
-    @NonNull
+
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        ViewHolder holder = new ViewHolder();
+        ViewHolder holder;
         DTO noteBook = getItem(position);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if(convertView == null) {
             convertView = inflater.inflate(R.layout.item, null);
+            holder = new ViewHolder();
             holder.imageView = convertView.findViewById(R.id.image);
             holder.brand = convertView.findViewById(R.id.brand);
             holder.model = convertView.findViewById(R.id.model);
             holder.price = convertView.findViewById(R.id.price);
+            convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
@@ -56,9 +58,13 @@ public class CustomAdapter extends ArrayAdapter<DTO> {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+        notifyDataSetChanged();
         return convertView;
     }
-
+    public void updateData(ArrayList<DTO> items) {
+        this.noteBooks = items;
+        notifyDataSetChanged();
+    }
     private class ViewHolder {
         ImageView imageView;
         TextView brand;

@@ -17,25 +17,22 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-
     TextView viewJSON;
     Button btn1;
     Button btn2;
     ListView viewLIST;
-    String url = "http://192.168.35.51:8887/";
-    String page = url + "/population.json";
+    String url = "http://10.50.0.61:8887/";
+    String page = url + "population.json";
     int state = 1;
     String json = "";
-
     ArrayList<DTO> dtos;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         btn1 = (Button) findViewById(R.id.btn1);
         viewJSON = (TextView) findViewById(R.id.viewJSON);
-        viewLIST = findViewById(R.id.viewLIST);
+        viewLIST = (ListView) findViewById(R.id.viewLIST);
 
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     CustomAdapter customAdapter = new CustomAdapter(MainActivity.this, dtos);
                     viewLIST.setAdapter(customAdapter);
+                    customAdapter.updateData(dtos);
                 }
             }
         });
