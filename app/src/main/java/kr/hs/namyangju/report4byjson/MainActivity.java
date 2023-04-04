@@ -12,10 +12,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {
     TextView viewJSON;
@@ -27,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     int state = 1;
     String json = "";
     ArrayList<DTO> dtos;
+    ScrollView scrollViewJson;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,20 +37,33 @@ public class MainActivity extends AppCompatActivity {
         btn1 = (Button) findViewById(R.id.btn1);
         viewJSON = (TextView) findViewById(R.id.viewJSON);
         viewLIST = (ListView) findViewById(R.id.viewLIST);
+        scrollViewJson = (ScrollView) findViewById(R.id.scrollViewJSON);
 
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                scrollViewJson.setVisibility(View.VISIBLE);
                 viewJSON.setVisibility(View.VISIBLE);
-                viewLIST.setVisibility(View.INVISIBLE);
-                JsonThread thread = new JsonThread(MainActivity.this, page);
-                thread.start();
-                try {
-                    thread.join();
-                    json = thread.getResuit();
-                    viewJSON.setText(json);
-                } catch (InterruptedException e) {
-                    Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                viewLIST.setVisibility(View.GONE);
+                if(state == 1) {
+
+                    JsonThread thread = new JsonThread(MainActivity.this, page);
+                    thread.start();
+                    try {
+                        thread.join();
+                        json = thread.getResuit();
+                        viewJSON.setText(json);
+                    } catch (InterruptedException e) {
+                        Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                } else if(state == 2){
+                    JsonAsyncTask jsonAsyncTask = new JsonAsyncTask();
+                    try {
+                        json = jsonAsyncTask.execute(page).get();
+                        viewJSON.setText(json);
+                    } catch (ExecutionException | InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
         });
@@ -55,7 +71,8 @@ public class MainActivity extends AppCompatActivity {
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                viewJSON.setVisibility(View.INVISIBLE);
+                scrollViewJson.setVisibility(View.GONE);
+                viewJSON.setVisibility(View.GONE);
                 viewLIST.setVisibility(View.VISIBLE);
                 if (state == 1) {
                     JsonThread thread = new JsonThread(MainActivity.this, page);
@@ -70,7 +87,18 @@ public class MainActivity extends AppCompatActivity {
                     }
                     CustomAdapter adapter = new CustomAdapter(MainActivity.this, dtos);
                     viewLIST.setAdapter(adapter);
-                } else {
+                    Log.d("TAG", String.valueOf(viewLIST.getCount()));
+                } else if(state == 2){
+                    JsonAsyncTask jsonAsyncTask = new JsonAsyncTask();
+                    try {
+                        json = jsonAsyncTask.execute(page).get();
+                        JsonParser parser = new JsonParser(MainActivity.this);
+                        dtos = parser.Parsing(json);
+                    } catch (ExecutionException | InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    CustomAdapter adapter = new CustomAdapter(MainActivity.this, dtos);
+                    viewLIST.setAdapter(adapter);
 
                 }
             }

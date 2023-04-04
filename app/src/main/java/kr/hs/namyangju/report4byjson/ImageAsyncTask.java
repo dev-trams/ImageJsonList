@@ -1,5 +1,8 @@
 package kr.hs.namyangju.report4byjson;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 
 import java.io.BufferedReader;
@@ -9,7 +12,15 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class JsonAsyncTask extends AsyncTask<String, String, String> {
+public class ImageAsyncTask extends AsyncTask<String, String, String> {
+    Context context;
+
+    private Bitmap bitmap;
+
+    public ImageAsyncTask(Context context) {
+        this.context = context;
+    }
+
     @Override
     protected String doInBackground(String... strings) {
         HttpURLConnection connection = null;
@@ -22,13 +33,9 @@ public class JsonAsyncTask extends AsyncTask<String, String, String> {
             URL url = new URL(strings[0]);
             connection = (HttpURLConnection) url.openConnection();
             inputStream = connection.getInputStream();
-            streamReader = new InputStreamReader(inputStream);
-            reader = new BufferedReader(streamReader);
 
-            String line;
-            while ((line = reader.readLine()) != null) {
-                result += (line + '\n');
-            }
+            bitmap = BitmapFactory.decodeStream(inputStream);
+
 
         } catch (IOException e) {
             publishProgress(e.getMessage());
@@ -44,8 +51,8 @@ public class JsonAsyncTask extends AsyncTask<String, String, String> {
         }
         return result;
     }
-    @Override
-    protected void onProgressUpdate(String... values) {
-        super.onProgressUpdate(values);
+    public Bitmap getBitmap() {
+        return bitmap;
     }
+
 }

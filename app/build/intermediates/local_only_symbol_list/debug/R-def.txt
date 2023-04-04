@@ -17,10 +17,10 @@ id itemAsync
 id itemThread
 id name
 id salary
+id scrollViewJSON
 id viewJSON
 id viewLIST
 layout activity_main
-layout activity_source
 layout item
 menu menu
 mipmap ic_launcher

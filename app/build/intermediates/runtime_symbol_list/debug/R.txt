@@ -3166,6 +3166,7 @@ int id scroll 0x7f080168
 int id scrollIndicatorDown 0x7f080169
 int id scrollIndicatorUp 0x7f08016a
 int id scrollView 0x7f08016b
+int id scrollViewJSON 0x7f0801f5
 int id scrollable 0x7f08016c
 int id search_badge 0x7f08016d
 int id search_bar 0x7f08016e
@@ -3410,7 +3411,6 @@ int layout abc_search_view 0x7f0b0019
 int layout abc_select_dialog_material 0x7f0b001a
 int layout abc_tooltip 0x7f0b001b
 int layout activity_main 0x7f0b001c
-int layout activity_source 0x7f0b001d
 int layout custom_dialog 0x7f0b001e
 int layout design_bottom_navigation_item 0x7f0b001f
 int layout design_bottom_sheet_dialog 0x7f0b0020
