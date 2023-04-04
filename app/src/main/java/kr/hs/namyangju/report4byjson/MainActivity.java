@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -61,14 +62,16 @@ public class MainActivity extends AppCompatActivity {
                     thread.start();
                     try {
                         thread.join();
-                        JsonParser jsonParser = new JsonParser(MainActivity.this);
-                        dtos = jsonParser.Parsing(thread.getResuit());
+                        JsonParser parser = new JsonParser(MainActivity.this);
+                        dtos = parser.Parsing(thread.getResuit());
+                        Log.d("TAG", "dto "+dtos.get(0).getFlag());
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        throw new RuntimeException(e);
                     }
-                    CustomAdapter customAdapter = new CustomAdapter(MainActivity.this, dtos);
-                    viewLIST.setAdapter(customAdapter);
-                    customAdapter.updateData(dtos);
+                    CustomAdapter adapter = new CustomAdapter(MainActivity.this, dtos);
+                    viewLIST.setAdapter(adapter);
+                } else {
+
                 }
             }
         });

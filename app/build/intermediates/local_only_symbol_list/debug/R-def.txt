@@ -9,14 +9,14 @@ color teal_700
 color white
 drawable ic_launcher_background
 drawable ic_launcher_foreground
-id brand
 id btn1
 id btn2
+id id
 id image
 id itemAsync
 id itemThread
-id model
-id price
+id name
+id salary
 id viewJSON
 id viewLIST
 layout activity_main

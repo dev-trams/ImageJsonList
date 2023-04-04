@@ -2901,7 +2901,6 @@ id bounce
 id bounceBoth
 id bounceEnd
 id bounceStart
-id brand
 id btn1
 id btn2
 id buttonPanel
@@ -3019,6 +3018,7 @@ id honorRequest
 id horizontal_only
 id icon
 id icon_group
+id id
 id ifRoom
 id ignore
 id ignoreRequest
@@ -3074,7 +3074,6 @@ id matrix
 id message
 id middle
 id mini
-id model
 id month_grid
 id month_navigation_bar
 id month_navigation_fragment_toggle
@@ -3106,6 +3105,7 @@ id mtrl_picker_text_input_range_start
 id mtrl_picker_title_text
 id mtrl_view_tag_bottom_padding
 id multiply
+id name
 id navigation_bar_item_active_indicator_view
 id navigation_bar_item_icon_container
 id navigation_bar_item_icon_view
@@ -3145,7 +3145,6 @@ id pin
 id position
 id postLayout
 id pressed
-id price
 id progress_circular
 id progress_horizontal
 id radio
@@ -3158,6 +3157,7 @@ id right_icon
 id right_side
 id rounded
 id row_index_key
+id salary
 id save_non_transition_alpha
 id save_overlay_view
 id sawtooth

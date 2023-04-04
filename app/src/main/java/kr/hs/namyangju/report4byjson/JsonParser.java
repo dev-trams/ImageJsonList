@@ -1,6 +1,7 @@
 package kr.hs.namyangju.report4byjson;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -8,6 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class JsonParser {
     private Context context;
@@ -17,27 +19,28 @@ public class JsonParser {
     }
 
     public ArrayList<DTO> Parsing(String json) {
-        ArrayList<DTO> noteBooks = new ArrayList<>();
+        ArrayList<DTO> dto = new ArrayList<>();
         try {
             JSONObject root = new JSONObject(json);
-            JSONObject temp = root.getJSONObject((String) root.names().get(0));
-            JSONArray array = temp.getJSONArray((String) temp.names().get(0));
+            JSONObject inroot = (JSONObject) root.getJSONObject("worldpopulation");
+            JSONArray array = inroot.getJSONArray((String) inroot.names().get(0));
             for (int i = 0; i < array.length(); i++) {
-                DTO dto = new DTO();
-                JSONObject object = array.getJSONObject(i);
+                DTO _dto = new DTO();
+                JSONObject object = (JSONObject) array.getJSONObject(i);
                 String rank = object.getString((String) object.names().get(0));
                 String country = object.getString((String) object.names().get(1));
                 String population = object.getString((String) object.names().get(2));
                 String flag = object.getString((String) object.names().get(3));
-                dto.setRank(rank);
-                dto.setCountry(country);
-                dto.setPopulation(population);
-                dto.setFlag(flag);
-                noteBooks.add(dto);
+                _dto.setRank(rank);
+                _dto.setCountry(country);
+                _dto.setPopulation(population);
+                _dto.setFlag(flag);
+                dto.add(_dto);
             }
         } catch (JSONException e) {
             Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+            Log.d("TAG", e.getMessage());
         }
-        return noteBooks;
+        return dto;
     }
 }

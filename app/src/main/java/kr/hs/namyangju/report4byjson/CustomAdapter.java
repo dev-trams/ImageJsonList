@@ -15,42 +15,40 @@ import java.util.ArrayList;
 
 public class CustomAdapter extends ArrayAdapter<DTO> {
     private Context context;
-    private ArrayList<DTO> noteBooks;
+    private ArrayList<DTO> dto;
 
-    public CustomAdapter(@NonNull Context context, ArrayList<DTO> noteBooks) {
-        super(context, R.layout.item, noteBooks);
+    public CustomAdapter(@NonNull Context context, ArrayList<DTO> dto) {
+        super(context, R.layout.item, dto);
         this.context = context;
-        this.noteBooks = noteBooks;
+        this.dto = dto;
     }
 
     @Nullable
     @Override
     public DTO getItem(int position) {
-        return noteBooks.get(position);
+        return dto.get(position);
     }
 
-
+    @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        ViewHolder holder;
-        DTO noteBook = getItem(position);
+        ViewHolder holder = new ViewHolder();
+        DTO dto = this.dto.get(position);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if(convertView == null) {
             convertView = inflater.inflate(R.layout.item, null);
-            holder = new ViewHolder();
             holder.imageView = convertView.findViewById(R.id.image);
-            holder.brand = convertView.findViewById(R.id.brand);
-            holder.model = convertView.findViewById(R.id.model);
-            holder.price = convertView.findViewById(R.id.price);
-            convertView.setTag(holder);
+            holder.id = convertView.findViewById(R.id.id);
+            holder.name = convertView.findViewById(R.id.name);
+            holder.salary = convertView.findViewById(R.id.salary);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        holder.brand.setText(noteBook.getRank());
-        holder.model.setText(noteBook.getCountry());
-        holder.price.setText(noteBook.getPopulation());
+        holder.id.setText("순위 : " + dto.getRank());
+        holder.name.setText("국가 : " + dto.getCountry());
+        holder.salary.setText("인구 : " + dto.getPopulation());
 
-        ImageThread thread = new ImageThread(context, noteBook.getFlag());
+        ImageThread thread = new ImageThread(context, dto.getFlag());
         thread.start();
         try {
             thread.join();
@@ -58,17 +56,13 @@ public class CustomAdapter extends ArrayAdapter<DTO> {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        notifyDataSetChanged();
         return convertView;
     }
-    public void updateData(ArrayList<DTO> items) {
-        this.noteBooks = items;
-        notifyDataSetChanged();
-    }
+
     private class ViewHolder {
         ImageView imageView;
-        TextView brand;
-        TextView model;
-        TextView price;
+        TextView id;
+        TextView name;
+        TextView salary;
     }
 }

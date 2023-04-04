@@ -15,7 +15,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/brand"
+            android:id="@+id/id"
             android:textSize="20dp"
             android:textStyle="bold"
             android:textColor="#CC0033"
@@ -24,7 +24,7 @@
             android:text="Brand"/>
         <TextView
             android:textSize="18dp"
-            android:id="@+id/model"
+            android:id="@+id/name"
             android:textStyle="bold"
             android:textColor="#3399FF"
             android:layout_width="match_parent"
@@ -32,7 +32,7 @@
             android:text="Model"/>
         <TextView
             android:textSize="16dp"
-            android:id="@+id/price"
+            android:id="@+id/salary"
             android:textStyle="italic"
             android:typeface="sans"
             android:layout_width="match_parent"
