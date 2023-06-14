@@ -32,6 +32,10 @@
         "source": "/Users/dev-trams/.gradle/daemon/7.4/kr.hs.namyangju.report4byjson.app-main-34:/drawable/ic_launcher_background.xml"
     },
     {
+        "merged": "kr.hs.namyangju.report4byjson.app-merged_res-32:/layout_popup_layout.xml.flat",
+        "source": "kr.hs.namyangju.report4byjson.app-main-34:/layout/popup_layout.xml"
+    },
+    {
         "merged": "/Users/dev-trams/.gradle/daemon/7.4/kr.hs.namyangju.report4byjson.app-merged_res-32:/mipmap-xhdpi_ic_launcher_round.webp.flat",
         "source": "/Users/dev-trams/.gradle/daemon/7.4/kr.hs.namyangju.report4byjson.app-main-34:/mipmap-xhdpi/ic_launcher_round.webp"
     },
@@ -54,10 +58,6 @@
     {
         "merged": "/Users/dev-trams/.gradle/daemon/7.4/kr.hs.namyangju.report4byjson.app-merged_res-32:/drawable-anydpi-v24_ic_launcher_foreground.xml.flat",
         "source": "/Users/dev-trams/.gradle/daemon/7.4/kr.hs.namyangju.report4byjson.app-pngs-27:/drawable-anydpi-v24/ic_launcher_foreground.xml"
-    },
-    {
-        "merged": "kr.hs.namyangju.report4byjson.app-merged_res-32:/layout_popup_layout_round.xml.flat",
-        "source": "kr.hs.namyangju.report4byjson.app-main-34:/layout/popup_layout_round.xml"
     },
     {
         "merged": "/Users/dev-trams/.gradle/daemon/7.4/kr.hs.namyangju.report4byjson.app-merged_res-32:/xml_backup_rules.xml.flat",

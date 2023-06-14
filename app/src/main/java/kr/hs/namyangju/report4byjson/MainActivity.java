@@ -16,6 +16,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -56,7 +58,18 @@ public class MainActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onList(1);
+
+                JsonThread thread = new JsonThread(getBaseContext());
+                JsonAsyncTask task = new JsonAsyncTask(getBaseContext());
+
+                JsonParser parser = new JsonParser(MainActivity.this);
+                //dtos = parser.onParsingJson(thread.getResuit()); //Thread용
+                try {
+                    dtos = parser.onParsingJson(task.execute().get()); //asyncTask용
+                } catch (JSONException | ExecutionException | InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                Toast.makeText(getBaseContext(), "완료했습니다.", Toast.LENGTH_SHORT).show();
             }
         });
         Button btn_desc = (Button) findViewById(R.id.btn_salary_desc);
@@ -90,64 +103,46 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onList(int _state) {
-        JsonThread thread = new JsonThread(this);
-        JsonAsyncTask task = new JsonAsyncTask(this);
-
-        thread.start();
         ArrayList<Sawon> sawons = new ArrayList<>();
-        try {
-            thread.join();
-
-            JsonParser parser = new JsonParser(MainActivity.this);
-            //dtos = parser.onParsingJson(thread.getResuit()); //Thread용
-            dtos = parser.onParsingJson(task.execute().get()); //asyncTask용
-            Cursor cursor = null;
-            switch (_state) {
-                case 1:
-                    cursor = db.onSearchData("sawon");
-                    break;
-                case 2:
-                    cursor = db.onSearchDataDesc("sawon");
-                    break;
-                case 3:
-                    cursor = db.onSearchDataOrder("sawon");
-                    break;
-                case 4:
-                    cursor = db.onSearchDataGender("sawon", "남");
-                    break;
-                case 5:
-                    cursor = db.onSearchDataGender("sawon", "여");
-                    break;
-            }
-
-            Log.d("TAG_CURSOR", String.valueOf(cursor.getCount()));
-            String id = "";
-            String name = "";
-            String gender = "";
-            String imgUrl = "";
-            String salary = "";
-            for (int i = 0; i < cursor.getCount(); i++) {
-                cursor.moveToNext();
-                id = cursor.getString(0);
-                name = cursor.getString(1);
-                gender = cursor.getString(2);
-                imgUrl = cursor.getString(3);
-                salary = cursor.getString(4);
-                sawons.add(new Sawon(id, name, gender, imgUrl, salary));
-            }
-
-            cursor.close();
-        } catch (InterruptedException | JSONException e) {
-            Log.d("TAG", e.getMessage());
-        } catch (ExecutionException e) {
-            throw new RuntimeException(e);
+        Cursor cursor = null;
+        switch (_state) {
+            case 2:
+                cursor = db.onSearchDataDesc("sawon");
+                break;
+            case 3:
+                cursor = db.onSearchDataOrder("sawon");
+                break;
+            case 4:
+                cursor = db.onSearchDataGender("sawon", "남");
+                break;
+            case 5:
+                cursor = db.onSearchDataGender("sawon", "여");
+                break;
         }
+
+        Log.d("TAG_CURSOR", String.valueOf(cursor.getCount()));
+        String id = "";
+        String name = "";
+        String gender = "";
+        String imgUrl = "";
+        String salary = "";
+        for (int i = 0; i < cursor.getCount(); i++) {
+            cursor.moveToNext();
+            id = cursor.getString(0);
+            name = cursor.getString(1);
+            gender = cursor.getString(2);
+            imgUrl = cursor.getString(3);
+            salary = cursor.getString(4);
+            sawons.add(new Sawon(id, name, gender, imgUrl, salary));
+        }
+
+        cursor.close();
         CustomAdapter adapter = new CustomAdapter(MainActivity.this, sawons, state);
         viewLIST.setAdapter(adapter);
         viewLIST.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(MainActivity.this, "아이템 클릭:"+i, Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "아이템 클릭:" + i, Toast.LENGTH_SHORT).show();
                 showPopup(sawons.get(i).getName(), Integer.parseInt(sawons.get(i).getId()), sawons.get(i).getImgUrl());
 
             }
@@ -155,16 +150,20 @@ public class MainActivity extends AppCompatActivity {
         Log.d("TAG", String.valueOf(viewLIST.getCount()));
     }
 
-
     private void showPopup(String name, int id, String imgUrl) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        View dialogView = LayoutInflater.from(this).inflate(R.layout.popup_layout, null);
+        View dialogView = null;
+        if (state == 1 || state == 2) {
+            dialogView = LayoutInflater.from(this).inflate(R.layout.popup_layout, null);
+        } else if (state == 3) {
+            dialogView = LayoutInflater.from(this).inflate(R.layout.popup_layout_round, null);
+        }
 
         ImageView imageView = dialogView.findViewById(R.id.imageView);
         TextView nameTextView = dialogView.findViewById(R.id.nameTextView);
         ImageView qrCodeImageView = dialogView.findViewById(R.id.qrCodeImageView);
 
-        nameTextView.setText(name);
+        nameTextView.setText("선택한 사원(" + name + ")");
 
         Glide.with(this)
                 .load(imgUrl)
@@ -175,10 +174,15 @@ public class MainActivity extends AppCompatActivity {
         qrCodeImageView.setImageBitmap(qrCode);
 
         builder.setView(dialogView);
-        builder.setPositiveButton("OK", null); // OK 버튼 추가
+        builder.setPositiveButton("확인", null); // OK 버튼 추가
 
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+        Window window = alertDialog.getWindow();
+        if (window != null) {
+            // 다이얼로그 창의 속성 설정
+            window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        }
     }
 
 
@@ -186,7 +190,7 @@ public class MainActivity extends AppCompatActivity {
         String qrData = "Name: " + name + ", ID: " + id;
 
         try {
-            BitMatrix bitMatrix = new MultiFormatWriter().encode(qrData, BarcodeFormat.QR_CODE, 200, 200);
+            BitMatrix bitMatrix = new MultiFormatWriter().encode(qrData, BarcodeFormat.QR_CODE, 700, 700);
 
             int width = bitMatrix.getWidth();
             int height = bitMatrix.getHeight();
@@ -206,6 +210,7 @@ public class MainActivity extends AppCompatActivity {
             return null;
         }
     }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
@@ -216,13 +221,13 @@ public class MainActivity extends AppCompatActivity {
             case R.id.rectangle_image:
                 //TODO 사각형 이미지
                 state = 2;
-                Toast.makeText(this, "lo:"+state, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "lo:" + state, Toast.LENGTH_SHORT).show();
                 item.setChecked(true);
                 break;
             case R.id.round_shape_image:
                 //TODO 원형 이미지
                 state = 3;
-                Toast.makeText(this, "lo:"+state, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "lo:" + state, Toast.LENGTH_SHORT).show();
                 break;
         }
         item.setChecked(true);
