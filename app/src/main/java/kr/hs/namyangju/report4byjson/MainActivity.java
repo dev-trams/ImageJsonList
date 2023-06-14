@@ -4,10 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
+import android.content.res.AssetFileDescriptor;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,6 +36,7 @@ import com.google.zxing.common.BitMatrix;
 
 import org.json.JSONException;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
@@ -215,25 +218,70 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.checked_select_back_music:
-                //TODO 배경 음악 활성화
-                state = 1;
+                // 배경 음악 체크 박스 클릭 시 동작
+                if (item.isChecked()) {
+                    // 체크되어 있으면 배경 음악 재생
+                    stopBackgroundMusic();
+                    item.setChecked(false);
+                } else {
+                    // 체크 해제되어 있으면 배경 음악 정지
+                    playBackgroundMusic();
+                    item.setChecked(true);
+                }
+//                item.setChecked(false);
                 break;
             case R.id.rectangle_image:
-                //TODO 사각형 이미지
+                // 사각형 이미지
                 state = 2;
                 Toast.makeText(this, "lo:" + state, Toast.LENGTH_SHORT).show();
                 item.setChecked(true);
+
                 break;
             case R.id.round_shape_image:
-                //TODO 원형 이미지
+                // 원형 이미지
                 state = 3;
                 Toast.makeText(this, "lo:" + state, Toast.LENGTH_SHORT).show();
+                item.setChecked(true);
+
                 break;
         }
-        item.setChecked(true);
 
         return true;
     }
+    private MediaPlayer mediaPlayer;
+
+    private void playBackgroundMusic() {
+        if (mediaPlayer == null) {
+            try {
+                // MediaPlayer 객체 생성
+                mediaPlayer = new MediaPlayer();
+
+                // 음악 파일 로드
+                AssetFileDescriptor descriptor = getAssets().openFd("background_music.mp3");
+                mediaPlayer.setDataSource(descriptor.getFileDescriptor(), descriptor.getStartOffset(), descriptor.getLength());
+                descriptor.close();
+
+                // 필요한 설정
+                mediaPlayer.setLooping(true); // 음악을 반복 재생할지 여부 설정
+                mediaPlayer.prepare(); // 비동기적으로 음악을 준비
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        // 음악 재생
+        mediaPlayer.start();
+    }
+
+    private void stopBackgroundMusic() {
+        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+            // 음악을 정지하고 MediaPlayer 객체 해제
+            mediaPlayer.stop();
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
