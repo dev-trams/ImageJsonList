@@ -29,6 +29,7 @@ layout activity_main
 layout item
 layout item_round
 layout popup_layout
+layout popup_layout_round
 menu menu
 mipmap ic_launcher
 mipmap ic_launcher_round

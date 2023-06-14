@@ -3,6 +3,7 @@ package kr.hs.namyangju.report4byjson;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
@@ -156,11 +157,12 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void showPopup(String name, int id, String imgUrl) {
-        View popupView = LayoutInflater.from(this).inflate(R.layout.popup_layout, null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.popup_layout, null);
 
-        ImageView imageView = popupView.findViewById(R.id.imageView);
-        TextView nameTextView = popupView.findViewById(R.id.nameTextView);
-        ImageView qrCodeImageView = popupView.findViewById(R.id.qrCodeImageView);
+        ImageView imageView = dialogView.findViewById(R.id.imageView);
+        TextView nameTextView = dialogView.findViewById(R.id.nameTextView);
+        ImageView qrCodeImageView = dialogView.findViewById(R.id.qrCodeImageView);
 
         nameTextView.setText(name);
 
@@ -172,14 +174,13 @@ public class MainActivity extends AppCompatActivity {
         Bitmap qrCode = generateQRCode(name, id);
         qrCodeImageView.setImageBitmap(qrCode);
 
-        PopupWindow popupWindow = new PopupWindow(popupView,
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT);
-        popupWindow.setOutsideTouchable(true);
-        popupWindow.setFocusable(true);
-        popupWindow.showAsDropDown(popupView);
+        builder.setView(dialogView);
+        builder.setPositiveButton("OK", null); // OK 버튼 추가
 
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
+
 
     private Bitmap generateQRCode(String name, int id) {
         String qrData = "Name: " + name + ", ID: " + id;
