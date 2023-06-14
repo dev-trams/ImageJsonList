@@ -1,8 +1,25 @@
 {
     "logs": [
         {
-            "outputFile": "kr.hs.namyangju.report4byjson.app-mergeDebugResources-27:/values-th/values-th.xml",
+            "outputFile": "kr.hs.namyangju.report4byjson.app-mergeDebugResources-30:/values-th/values-th.xml",
             "map": [
+                {
+                    "source": "/Users/dev-trams/.gradle/caches/transforms-3/af0518fa11d1ef2c2e2604da698c20fd/transformed/jetified-zxing-android-embedded-3.6.0/res/values-th/values-th.xml",
+                    "from": {
+                        "startLines": "2,3,4,5",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,114,163,281",
+                        "endColumns": "58,48,117,107",
+                        "endOffsets": "109,158,276,384"
+                    },
+                    "to": {
+                        "startLines": "97,98,99,100",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "7954,8013,8062,8180",
+                        "endColumns": "58,48,117,107",
+                        "endOffsets": "8008,8057,8175,8283"
+                    }
+                },
                 {
                     "source": "/Users/dev-trams/.gradle/caches/transforms-3/da10056dbb7cd7dc7f502eafa241998a/transformed/appcompat-1.6.1/res/values-th/values-th.xml",
                     "from": {
@@ -21,7 +38,7 @@
                     }
                 },
                 {
-                    "source": "/Users/dev-trams/.gradle/caches/transforms-3/113dec783198fb148d5bb0a209784fef/transformed/material-1.8.0/res/values-th/values-th.xml",
+                    "source": "/Users/dev-trams/.gradle/caches/transforms-3/5a2a6f19e7b6a7eeb003cf8ca100ff76/transformed/material-1.9.0/res/values-th/values-th.xml",
                     "from": {
                         "startLines": "2,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",

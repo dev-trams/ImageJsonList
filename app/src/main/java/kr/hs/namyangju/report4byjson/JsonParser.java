@@ -1,15 +1,14 @@
 package kr.hs.namyangju.report4byjson;
-
 import android.content.Context;
-import android.util.Log;
-import android.widget.Toast;
+import android.database.sqlite.SQLiteDatabase;
+
+import androidx.annotation.NonNull;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class JsonParser {
     private Context context;
@@ -17,30 +16,39 @@ public class JsonParser {
     public JsonParser(Context context) {
         this.context = context;
     }
-
-    public ArrayList<DTO> Parsing(String json) {
-        ArrayList<DTO> dto = new ArrayList<>();
+    @NonNull
+    public ArrayList<Sawon> onParsingJson(String json) throws JSONException {
+        DB db = new DB(context, "db", null, 1);
+        SQLiteDatabase database = db.getWritableDatabase();
+        db.onCreate(database);
+        ArrayList<Sawon> sawonList = new ArrayList<>();
         try {
-            JSONObject root = new JSONObject(json);
-            JSONObject inroot = (JSONObject) root.getJSONObject("worldpopulation");
-            JSONArray array = inroot.getJSONArray((String) inroot.names().get(0));
-            for (int i = 0; i < array.length(); i++) {
-                DTO _dto = new DTO();
-                JSONObject object = (JSONObject) array.getJSONObject(i);
-                String rank = object.getString((String) object.names().get(0));
-                String country = object.getString((String) object.names().get(1));
-                String population = object.getString((String) object.names().get(2));
-                String flag = object.getString((String) object.names().get(3));
-                _dto.setRank(rank);
-                _dto.setCountry(country);
-                _dto.setPopulation(population);
-                _dto.setFlag(flag);
-                dto.add(_dto);
+            JSONObject jsonObject = new JSONObject(json);
+            JSONArray employeeArray = jsonObject.getJSONArray("Employee");
+
+            for (int i = 0; i < employeeArray.length(); i++) {
+                JSONObject employeeObject = employeeArray.getJSONObject(i);
+
+                String id = employeeObject.getString("id");
+                String name = employeeObject.getString("name");
+                String gender = employeeObject.getString("gender");
+                int salary = employeeObject.getInt("salary");
+                String imageUrl = employeeObject.getString("image");
+
+                db.insertData("sawon", id, name, gender, salary, imageUrl);
+                Sawon sawon = new Sawon();
+                sawon.setId(id);
+                sawon.setName(name);
+                sawon.setGender(gender);
+                sawon.setSalary(String.valueOf(salary));
+                sawon.setImgUrl(imageUrl);
+
+                sawonList.add(sawon);
             }
         } catch (JSONException e) {
-            Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
-            Log.d("TAG", e.getMessage());
+            e.printStackTrace();
         }
-        return dto;
+
+        return sawonList;
     }
 }

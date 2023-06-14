@@ -1,42 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="8dp">
 
     <ImageView
-        android:id="@+id/image"
-        android:layout_width="120dp"
-        android:layout_height="120dp"/>
-    <LinearLayout
-        android:layout_marginTop="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:orientation="vertical">
+        android:id="@+id/imageView"
+        android:layout_width="74dp"
+        android:layout_height="100dp"
+        android:scaleType="centerCrop"/>
 
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_marginStart="8dp">
         <TextView
-            android:id="@+id/id"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            android:textColor="#CC0033"
+            android:id="@+id/idTextView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Brand"/>
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:textSize="20sp"
+            android:textColor="@android:color/black" />
         <TextView
-            android:textSize="18dp"
-            android:id="@+id/name"
-            android:textStyle="bold"
-            android:textColor="#3399FF"
+            android:id="@+id/nameTextView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Model"/>
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:textSize="20sp"
+            android:textColor="@android:color/black" />
         <TextView
-            android:textSize="16dp"
-            android:id="@+id/salary"
-            android:textStyle="italic"
-            android:typeface="sans"
+            android:id="@+id/sexTextView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Price"/>
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:textSize="20sp"
+            android:textColor="@android:color/black" />
+        <TextView
+            android:id="@+id/salaryTextView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:textSize="20sp"
+            android:textColor="@android:color/darker_gray" />
+
     </LinearLayout>
+
 </LinearLayout>

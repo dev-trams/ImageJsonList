@@ -1,5 +1,7 @@
 package kr.hs.namyangju.report4byjson;
 
+import android.content.Context;
+import android.content.res.AssetManager;
 import android.os.AsyncTask;
 
 import java.io.BufferedReader;
@@ -10,18 +12,22 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class JsonAsyncTask extends AsyncTask<String, String, String> {
+    Context context = null;
+
+    public JsonAsyncTask(Context context) {
+        this.context = context;
+    }
+
     @Override
     protected String doInBackground(String... strings) {
-        HttpURLConnection connection = null;
         InputStream inputStream = null;
         InputStreamReader streamReader=null;
         BufferedReader reader = null;
+        AssetManager manager = context.getAssets();
         String result = "";
-
         try {
-            URL url = new URL(strings[0]);
-            connection = (HttpURLConnection) url.openConnection();
-            inputStream = connection.getInputStream();
+
+            inputStream = manager.open("sawon.json");
             streamReader = new InputStreamReader(inputStream);
             reader = new BufferedReader(streamReader);
 
@@ -37,7 +43,6 @@ public class JsonAsyncTask extends AsyncTask<String, String, String> {
                 reader.close();
                 streamReader.close();
                 inputStream.close();
-                connection.disconnect();
             } catch (IOException e) {
                 publishProgress(e.getMessage());
             }

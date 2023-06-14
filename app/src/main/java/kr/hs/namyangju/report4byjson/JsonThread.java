@@ -1,6 +1,7 @@
 package kr.hs.namyangju.report4byjson;
 
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.os.Handler;
 import android.widget.Toast;
 
@@ -18,17 +19,16 @@ public class JsonThread extends Thread{
     private Handler handler = new Handler();
     private StringBuilder builder = new StringBuilder();
 
-    public JsonThread(Context context, String page) {
+
+    public JsonThread(Context context) {
         this.context = context;
-        this.page = page;
     }
 
     @Override
     public void run() {
+        AssetManager assetManager = context.getAssets();
         try {
-            URL url = new URL(page);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            InputStream inputStream = connection.getInputStream();
+            InputStream inputStream = assetManager.open("sawon.json");
             InputStreamReader streamReader = new InputStreamReader(inputStream);
             BufferedReader reader = new BufferedReader(streamReader);
             String line;
@@ -38,7 +38,6 @@ public class JsonThread extends Thread{
             reader.close();
             streamReader.close();
             inputStream.close();
-            connection.disconnect();
         } catch (IOException e) {
             handler.post(new Runnable() {
                 @Override

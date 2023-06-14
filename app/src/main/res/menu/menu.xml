@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <group android:checkableBehavior="single">
-        <item android:id="@+id/itemThread"
-            android:title="쓰레드"/>
-        <item android:id="@+id/itemAsync"
-            android:title="안시"/>
-    </group>
+    <item
+        android:id="@+id/checked_select_back_music"
+        android:checkable="true"
+        android:title="배경 음악" />
+    <item android:title="Image 모양 선택">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/rectangle_image"
+                    android:title="사각형 이미지"
+                    android:checked="true"/>
+                <item
+                    android:id="@+id/round_shape_image"
+                    android:title="둥근 이미지" />
+            </group>
+        </menu>
+    </item>
 </menu>

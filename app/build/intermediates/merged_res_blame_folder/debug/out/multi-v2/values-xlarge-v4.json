@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "kr.hs.namyangju.report4byjson.app-mergeDebugResources-27:/values-xlarge-v4/values-xlarge-v4.xml",
+            "outputFile": "kr.hs.namyangju.report4byjson.app-mergeDebugResources-30:/values-xlarge-v4/values-xlarge-v4.xml",
             "map": [
                 {
                     "source": "/Users/dev-trams/.gradle/caches/transforms-3/da10056dbb7cd7dc7f502eafa241998a/transformed/appcompat-1.6.1/res/values-xlarge-v4/values-xlarge-v4.xml",

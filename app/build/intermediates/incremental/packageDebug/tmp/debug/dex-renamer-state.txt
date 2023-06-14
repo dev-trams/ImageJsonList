@@ -1,10 +1,13 @@
-#Wed Apr 05 12:34:14 KST 2023
-base.2=/Users/dev-trams/Developer/AndroidStudio/JavaProj/KBU/ImageJsonList/app/build/intermediates/dex/debug/mergeProjectDexDebug/8/classes.dex
+#Wed Jun 14 12:30:12 KST 2023
+path.3=classes2.dex
 path.2=8/classes.dex
-base.1=/Users/dev-trams/Developer/AndroidStudio/JavaProj/KBU/ImageJsonList/app/build/intermediates/dex/debug/mergeProjectDexDebug/0/classes.dex
 path.1=0/classes.dex
+path.0=classes.dex
+base.3=/Users/dev-trams/Developer/AndroidStudio/JavaProj/KBU/ImageJsonList/app/build/intermediates/dex/debug/mergeExtDexDebug/classes2.dex
+base.2=/Users/dev-trams/Developer/AndroidStudio/JavaProj/KBU/ImageJsonList/app/build/intermediates/dex/debug/mergeProjectDexDebug/8/classes.dex
+base.1=/Users/dev-trams/Developer/AndroidStudio/JavaProj/KBU/ImageJsonList/app/build/intermediates/dex/debug/mergeProjectDexDebug/0/classes.dex
 base.0=/Users/dev-trams/Developer/AndroidStudio/JavaProj/KBU/ImageJsonList/app/build/intermediates/dex/debug/mergeExtDexDebug/classes.dex
+renamed.3=classes4.dex
 renamed.2=classes3.dex
 renamed.1=classes2.dex
 renamed.0=classes.dex
-path.0=classes.dex

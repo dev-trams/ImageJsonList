@@ -7,38 +7,55 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <Button
+        android:id="@+id/btn_jsontosql"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="JSON->SQLITE" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <Button
-            android:text="JSON 문서 보기"
-            android:id="@+id/btn1"
-            android:layout_weight="1"
+            android:id="@+id/btn_salary"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="급여 내림차순" />
+
         <Button
-            android:text="JSON PARSING"
-            android:id="@+id/btn2"
-            android:layout_weight="1"
+            android:id="@+id/btn_salary_desc"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="급여 오름차순" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_male"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="남자" />
+
+        <Button
+            android:id="@+id/btn_female"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="여자" />
     </LinearLayout>
 
     <ListView
-        android:id="@+id/viewLIST"
+        android:id="@+id/listview"
+        tools:listitem="@layout/item"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
-
-    <ScrollView
-        android:id="@+id/scrollViewJSON"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <TextView
-            android:id="@+id/viewJSON"
-            android:text="hint"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-    </ScrollView>
 </LinearLayout>
